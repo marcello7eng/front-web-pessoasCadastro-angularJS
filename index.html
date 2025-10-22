@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="pessoaApp">
+<head>
+    <title>CRUD AngularJS 1.8 + Spring</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        form { border: 1px solid #ccc; padding: 15px; border-radius: 5px; background: #f9f9f9; }
+        input[type="text"], input[type="date"] { width: calc(100% - 20px); padding: 8px; margin-bottom: 10px; }
+        button { padding: 8px 12px; cursor: pointer; }
+        .btn-salvar { background-color: #4CAF50; color: white; border: none; }
+        .btn-atualizar { background-color: #008CBA; color: white; border: none; }
+        .btn-cancelar { background-color: #f44336; color: white; border: none; margin-left: 10px; }
+        .btn-editar, .btn-apagar { padding: 4px 8px; font-size: 12px; }
+    </style>
+</head>
+<body ng-controller="PessoaController">
+
+    <div class="container">
+        <h2>CRUD de Pessoas (AngularJS 1.8)</h2>
+
+        <form ng-submit="salvarOuAtualizar()">
+            
+            <div>
+                <label>Nome:</label>
+                <input type="text" ng-model="pessoa.nome" placeholder="Digite o nome" required>
+            </div>
+            <div>
+                <label>Data de Nascimento:</label>
+                <input type="date" ng-model="pessoa.dataNascimento" required>
+            </div>
+            
+            <button type="submit" ng-if="!modoEdicao" class="btn-salvar">Salvar Nova Pessoa</button>
+            <button type="submit" ng-if="modoEdicao" class="btn-atualizar">Atualizar Pessoa</button>
+
+            <button type-="button" ng-if="modoEdicao" ng-click="limparFormulario()" class="btn-cancelar">Cancelar Edição</button>
+        </form>
+
+        <h3>Pessoas Cadastradas</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Data de Nascimento</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="p in pessoas">
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.nome }}</td>
+                    <td>{{ p.dataNascimento | date:'dd/MM/yyyy' }}</td>
+                    <td>
+                        <button ng-click="prepararEdicao(p)" class="btn-editar">Editar</button>
+                        <button ng-click="apagarPessoa(p)" class="btn-apagar">Apagar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div> <script src="libs/angular.js"></script>
+    
+    <script src="app/app.module.js"></script>
+    
+    <script src="app/pessoa.service.js"></script>
+    <script src="app/pessoa.controller.js"></script>
+
+</body>
+</html>
